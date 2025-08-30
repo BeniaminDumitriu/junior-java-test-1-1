@@ -39,8 +39,24 @@ public class CarService {
     }
 
     public boolean isInsuranceValid(Long carId, LocalDate date) {
-        if (carId == null || date == null) return false;
-        // TODO: optionally throw NotFound if car does not exist
+        if (carId == null || date == null) {
+            throw new IllegalArgumentException("carId and date cannot be null");
+        }
+        
+        // Validate car exists
+        if (!carRepository.existsById(carId)) {
+            throw new EntityNotFoundException("Car " + carId + " not found");
+        }
+        
+        // Validate date is reasonable (not too far in past/future)
+        LocalDate now = LocalDate.now();
+        LocalDate minDate = now.minusYears(100); // Reasonable past limit
+        LocalDate maxDate = now.plusYears(50);   // Reasonable future limit
+        
+        if (date.isBefore(minDate) || date.isAfter(maxDate)) {
+            throw new IllegalArgumentException("Date " + date + " is outside supported range. Must be between " + minDate + " and " + maxDate);
+        }
+        
         return policyRepository.existsActiveOnDate(carId, date);
     }
     

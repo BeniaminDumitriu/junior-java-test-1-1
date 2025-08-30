@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
+import jakarta.persistence.EntityNotFoundException;
 
 @RestController
 @RequestMapping("/api")
@@ -50,10 +52,18 @@ public class CarController {
 
     @GetMapping("/cars/{carId}/insurance-valid")
     public ResponseEntity<?> isInsuranceValid(@PathVariable Long carId, @RequestParam String date) {
-        // TODO: validate date format and handle errors consistently
-        LocalDate d = LocalDate.parse(date);
-        boolean valid = service.isInsuranceValid(carId, d);
-        return ResponseEntity.ok(new InsuranceValidityResponse(carId, d.toString(), valid));
+        try {
+            // Validate date format (ISO YYYY-MM-DD)
+            LocalDate d = LocalDate.parse(date);
+            boolean valid = service.isInsuranceValid(carId, d);
+            return ResponseEntity.ok(new InsuranceValidityResponse(carId, d.toString(), valid));
+        } catch (DateTimeParseException e) {
+            return ResponseEntity.badRequest().body(new ErrorResponse("Invalid date format. Use ISO format: YYYY-MM-DD"));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(404).body(new ErrorResponse(e.getMessage()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+        }
     }
 
     @PostMapping("/cars/{carId}/claims")
@@ -80,4 +90,6 @@ public class CarController {
     }
 
     public record InsuranceValidityResponse(Long carId, String date, boolean valid) {}
+    
+    public record ErrorResponse(String error) {}
 }
