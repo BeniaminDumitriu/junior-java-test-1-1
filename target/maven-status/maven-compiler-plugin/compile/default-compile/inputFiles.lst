@@ -1,0 +1,12 @@
+/Users/dumitriubeniamin/Downloads/junior-java-test 1 1/src/main/java/com/example/carins/CarInsuranceApplication.java
+/Users/dumitriubeniamin/Downloads/junior-java-test 1 1/src/main/java/com/example/carins/model/Car.java
+/Users/dumitriubeniamin/Downloads/junior-java-test 1 1/src/main/java/com/example/carins/model/InsurancePolicy.java
+/Users/dumitriubeniamin/Downloads/junior-java-test 1 1/src/main/java/com/example/carins/model/Owner.java
+/Users/dumitriubeniamin/Downloads/junior-java-test 1 1/src/main/java/com/example/carins/repo/CarRepository.java
+/Users/dumitriubeniamin/Downloads/junior-java-test 1 1/src/main/java/com/example/carins/repo/InsurancePolicyRepository.java
+/Users/dumitriubeniamin/Downloads/junior-java-test 1 1/src/main/java/com/example/carins/repo/OwnerRepository.java
+/Users/dumitriubeniamin/Downloads/junior-java-test 1 1/src/main/java/com/example/carins/service/CarService.java
+/Users/dumitriubeniamin/Downloads/junior-java-test 1 1/src/main/java/com/example/carins/web/CarController.java
+/Users/dumitriubeniamin/Downloads/junior-java-test 1 1/src/main/java/com/example/carins/web/GlobalExceptionHandler.java
+/Users/dumitriubeniamin/Downloads/junior-java-test 1 1/src/main/java/com/example/carins/web/dto/CarDto.java
+/Users/dumitriubeniamin/Downloads/junior-java-test 1 1/src/main/java/com/example/carins/web/dto/CreateCarRequest.java
