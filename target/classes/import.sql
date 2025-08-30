@@ -11,3 +11,4 @@ INSERT INTO insurancepolicy (id, car_id, provider, start_date, end_date) VALUES 
 ALTER TABLE owner ALTER COLUMN id RESTART WITH 100;
 ALTER TABLE car ALTER COLUMN id RESTART WITH 100;
 ALTER TABLE insurancepolicy ALTER COLUMN id RESTART WITH 100;
+ALTER TABLE insuranceclaim ALTER COLUMN id RESTART WITH 100;
