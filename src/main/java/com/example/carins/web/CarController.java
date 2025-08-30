@@ -3,12 +3,16 @@ package com.example.carins.web;
 import com.example.carins.model.Car;
 import com.example.carins.service.CarService;
 import com.example.carins.web.dto.CarDto;
+import com.example.carins.web.dto.CreateClaimRequest;
+import com.example.carins.web.dto.ClaimDto;
+import com.example.carins.web.dto.HistoryEventDto;
 import com.example.carins.web.dto.CreateCarRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 import java.time.LocalDate;
+import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
@@ -50,6 +54,21 @@ public class CarController {
         LocalDate d = LocalDate.parse(date);
         boolean valid = service.isInsuranceValid(carId, d);
         return ResponseEntity.ok(new InsuranceValidityResponse(carId, d.toString(), valid));
+    }
+
+    @PostMapping("/cars/{carId}/claims")
+    public ResponseEntity<ClaimDto> registerClaim(@PathVariable Long carId, @Valid @RequestBody CreateClaimRequest request, UriComponentsBuilder uriBuilder) {
+        ClaimDto dto = service.registerClaim(carId, request.getClaimDate(), request.getDescription(), request.getAmount());
+        var location = uriBuilder.path("/api/cars/{carId}/claims/{claimId}")
+                .buildAndExpand(carId, dto.id())
+                .toUri();
+        return ResponseEntity.created(location).body(dto);
+    }
+
+    @GetMapping("/cars/{carId}/history")
+    public ResponseEntity<List<HistoryEventDto>> getHistory(@PathVariable Long carId) {
+        List<HistoryEventDto> events = service.getCarHistory(carId);
+        return ResponseEntity.ok(events);
     }
 
     private CarDto toDto(Car c) {
